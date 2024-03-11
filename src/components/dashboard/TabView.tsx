@@ -2,33 +2,35 @@ import React, { useState } from "react";
 import { TabItem } from "./TabItem";
 import { TabPanel } from "./TabPanel";
 import { TTab } from "../../interfaces";
-import Stats from "./Stats";
 
 type TTabViewProps = {
-	tabs: TTab[];
+  tabs: TTab[];
+  filters: any;
 };
 
-export const TabView = ({ tabs }: TTabViewProps) => {
-	const [activeTab, setActiveTab] = useState(0);
-	return (
-		<div className="mx-auto p-4 bg-slate-50 border rounded-lg drop-shadow-md">
-			<div className="tabs">
-				{tabs?.map((tab: TTab, index: number) => (
-					<TabItem
-						key={tab?.id}
-						label={tab?.label}
-						isActive={index === activeTab}
-						clickHandler={() => setActiveTab(index)}
-					/>
-				))}
-			</div>
-			<div className="mx-auto">
-				{tabs?.map((tab: TTab, index: number) => (
-					<TabPanel key={tab?.id} isActive={index === activeTab}>
-						{tab?.content}
-					</TabPanel>
-				))}
-			</div>
-		</div>
-	);
+export const TabView = ({ tabs, filters }: TTabViewProps) => {
+  const [activeTab, setActiveTab] = useState(0);
+
+  return (
+    <div className="mx-auto p-4 bg-slate-50 border rounded-lg drop-shadow-md">
+      <div className="tabs">
+        {tabs?.map((tab: TTab, index: number) => (
+          <TabItem
+            key={tab?.id}
+            label={tab?.label}
+			total={tab?.total}
+            isActive={index === activeTab}
+            clickHandler={() => setActiveTab(index)}
+          />
+        ))}
+      </div>
+      <div className="mx-auto">
+        {tabs?.map((tab: TTab, index: number) => (
+          <TabPanel key={tab?.id} isActive={index === activeTab}>
+            {tab?.content}
+          </TabPanel>
+        ))}
+      </div>
+    </div>
+  );
 };

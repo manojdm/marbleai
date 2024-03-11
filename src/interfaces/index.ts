@@ -29,6 +29,7 @@ export interface IAddress {
 export interface IChartDatum {
   date: string;
   value: string;
+  total: number;
 }
 
 export interface IChart {
@@ -58,4 +59,5 @@ export type TTab = {
   id: number;
   label: string;
   content: JSX.Element;
+  total?: number;
 };
