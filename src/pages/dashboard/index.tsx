@@ -3,9 +3,7 @@ import { CrudFilter, useList } from "@refinedev/core";
 import dayjs from "dayjs";
 import Stats from "../../components/dashboard/Stats";
 import { ResponsiveAreaChart } from "../../components/dashboard/ResponsiveAreaChart";
-import { ResponsiveBarChart } from "../../components/dashboard/ResponsiveBarChart";
 import { TabView } from "../../components/dashboard/TabView";
-import { RecentSales } from "../../components/dashboard/RecentSales";
 import { IChartDatum, TTab } from "../../interfaces";
 
 const filters: CrudFilter[] = [
@@ -73,7 +71,7 @@ export const Dashboard: React.FC = () => {
 			id: 2,
 			label: "Daily Orders",
 			content: (
-				<ResponsiveBarChart
+				<ResponsiveAreaChart
 					kpi="Daily orders"
 					data={memoizedOrdersData}
 					colors={{
@@ -101,11 +99,6 @@ export const Dashboard: React.FC = () => {
 
 	return (
 		<>
-			<Stats
-				dailyRevenue={dailyRevenue}
-				dailyOrders={dailyOrders}
-				newCustomers={newCustomers}
-			/>
 			<TabView tabs={tabs} />
 		</>
 	);
