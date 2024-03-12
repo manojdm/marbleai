@@ -59,5 +59,6 @@ export type TTab = {
   id: number;
   label: string;
   content: JSX.Element;
-  total?: number;
+  previousWeekTotal?: number;
+  comparisionWeekTotal?: number;
 };

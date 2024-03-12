@@ -1,41 +1,69 @@
 import React, { useMemo } from "react";
 import { CrudFilter, useList } from "@refinedev/core";
 import dayjs from "dayjs";
-import Stats from "../../components/dashboard/Stats";
 import { ResponsiveAreaChart } from "../../components/dashboard/ResponsiveAreaChart";
 import { TabView } from "../../components/dashboard/TabView";
 import { IChartDatum, TTab } from "../../interfaces";
 
-const filters: CrudFilter[] = [
+const previousWeekDataFilters: CrudFilter[] = [
   {
     field: "start",
     operator: "eq",
-    value: dayjs()?.subtract(30, "days")?.startOf("day"),
+    value: dayjs().subtract(1, "week").startOf("week"),
   },
   {
     field: "end",
     operator: "eq",
-    value: dayjs().startOf("day"),
+    value: dayjs().subtract(1, "week").endOf("week"),
+  },
+];
+
+const comparisionWeekDataFilters: CrudFilter[] = [
+  {
+    field: "start",
+    operator: "eq",
+    value: dayjs()?.subtract(2, "week")?.startOf("week"),
+  },
+  {
+    field: "end",
+    operator: "eq",
+    value: dayjs().subtract(2, "week").endOf("week"),
   },
 ];
 
 export const Dashboard: React.FC = () => {
-  const { data: dailyRevenue } = useList<IChartDatum>({
+  const { data: previousWeekDailyRevenue } = useList<IChartDatum>({
     resource: "dailyRevenue",
-    filters,
+    filters: previousWeekDataFilters,
   });
 
-  const { data: dailyOrders } = useList<IChartDatum>({
+  const { data: previousWeekDailyOrders } = useList<IChartDatum>({
     resource: "dailyOrders",
-    filters,
+    filters: previousWeekDataFilters,
   });
 
-  const { data: newCustomers } = useList<IChartDatum>({
+  const { data: previousWeekNewCustomers } = useList<IChartDatum>({
     resource: "newCustomers",
-    filters,
+    filters: previousWeekDataFilters,
   });
 
-  console.log(newCustomers);
+  const { data: comparisionWeekDailyRevenue } = useList<IChartDatum>({
+    resource: "dailyRevenue",
+    pagination: {
+      pageSize: 2,
+    },
+    filters: comparisionWeekDataFilters,
+  });
+
+  const { data: comparisionWeekDailyOrders } = useList<IChartDatum>({
+    resource: "dailyOrders",
+    filters: comparisionWeekDataFilters,
+  });
+
+  const { data: comparisionWeekNewCustomers } = useList<IChartDatum>({
+    resource: "newCustomers",
+    filters: comparisionWeekDataFilters,
+  });
 
   const useMemoizedChartData = (d: any) => {
     return useMemo(() => {
@@ -50,9 +78,25 @@ export const Dashboard: React.FC = () => {
     }, [d]);
   };
 
-  const memoizedRevenueData = useMemoizedChartData(dailyRevenue);
-  const memoizedOrdersData = useMemoizedChartData(dailyOrders);
-  const memoizedNewCustomersData = useMemoizedChartData(newCustomers);
+  //previous Week data
+  const previousWeekRevenueData = useMemoizedChartData(
+    previousWeekDailyRevenue
+  );
+  const previousWeekOrdersData = useMemoizedChartData(previousWeekDailyOrders);
+  const previousWeekNewCustomersData = useMemoizedChartData(
+    previousWeekNewCustomers
+  );
+
+  //comparision Week data
+  const comparisionWeekRevenueData = useMemoizedChartData(
+    comparisionWeekDailyRevenue
+  );
+  const comparisionWeekOrdersData = useMemoizedChartData(
+    comparisionWeekDailyOrders
+  );
+  const comparisionWeekNewCustomersData = useMemoizedChartData(
+    comparisionWeekNewCustomers
+  );
 
   const tabs: TTab[] = [
     {
@@ -61,13 +105,15 @@ export const Dashboard: React.FC = () => {
       content: (
         <ResponsiveAreaChart
           kpi="Daily revenue"
-          data={memoizedRevenueData}
+          data={previousWeekRevenueData}
+          data2={comparisionWeekRevenueData}
           colors={{
             stroke: "rgb(54, 162, 235)",
           }}
         />
       ),
-      total: dailyRevenue?.data?.total,
+      previousWeekTotal: previousWeekDailyRevenue?.data?.total,
+      comparisionWeekTotal: comparisionWeekDailyRevenue?.data?.total,
     },
     {
       id: 2,
@@ -75,13 +121,15 @@ export const Dashboard: React.FC = () => {
       content: (
         <ResponsiveAreaChart
           kpi="Daily orders"
-          data={memoizedOrdersData}
+          data={previousWeekOrdersData}
+          data2={comparisionWeekOrdersData}
           colors={{
             stroke: "rgb(255, 159, 64)",
           }}
         />
       ),
-      total: dailyOrders?.data?.total,
+      previousWeekTotal: previousWeekDailyOrders?.data?.total,
+      comparisionWeekTotal: comparisionWeekDailyOrders?.data?.total,
     },
     {
       id: 3,
@@ -89,19 +137,21 @@ export const Dashboard: React.FC = () => {
       content: (
         <ResponsiveAreaChart
           kpi="New customers"
-          data={memoizedNewCustomersData}
+          data={previousWeekNewCustomersData}
+          data2={comparisionWeekNewCustomersData}
           colors={{
             stroke: "rgb(76, 175, 80)",
           }}
         />
       ),
-      total: newCustomers?.data?.total,
+      previousWeekTotal: previousWeekNewCustomers?.data?.total,
+      comparisionWeekTotal: comparisionWeekNewCustomers?.data?.total,
     },
   ];
 
   return (
     <>
-      <TabView filters={filters} tabs={tabs} />
+      <TabView filters={previousWeekDataFilters} tabs={tabs} />
     </>
   );
 };

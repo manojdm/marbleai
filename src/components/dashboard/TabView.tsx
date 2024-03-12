@@ -18,13 +18,14 @@ export const TabView = ({ tabs, filters }: TTabViewProps) => {
           <TabItem
             key={tab?.id}
             label={tab?.label}
-			total={tab?.total}
+            previousWeekTotal={tab?.previousWeekTotal}
+            comparisionWeekTotal={tab?.comparisionWeekTotal}
             isActive={index === activeTab}
             clickHandler={() => setActiveTab(index)}
           />
         ))}
       </div>
-      <div className="mx-auto">
+      <div className="mx-auto pl-4">
         {tabs?.map((tab: TTab, index: number) => (
           <TabPanel key={tab?.id} isActive={index === activeTab}>
             {tab?.content}
