@@ -14,15 +14,16 @@ import { IChartDatum } from "../../interfaces";
 type TResponsiveAreaChartProps = {
   kpi: string;
   data: IChartDatum[];
+  data2?: IChartDatum[];
   colors: {
     stroke: string;
-    fill: string;
   };
 };
 
 export const ResponsiveAreaChart = ({
   kpi,
   data,
+  data2,
   colors,
 }: TResponsiveAreaChartProps) => {
   return (
@@ -37,25 +38,27 @@ export const ResponsiveAreaChart = ({
           bottom: 0,
         }}
       >
-        <CartesianGrid strokeDasharray="0 0 0" />
+        <CartesianGrid vertical={false} />
         <XAxis
           dataKey="date"
-          tickCount={data?.length ?? 0}
+          tickCount={1}
           tick={{
             stroke: "light-grey",
             strokeWidth: 0.5,
-            fontSize: "12px",
+            fontSize: "18px",
           }}
+          stroke="none"
         />
         <YAxis
-          tickCount={13}
+          tickCount={4}
           tick={{
             stroke: "light-grey",
-            strokeWidth: 0.5,
-            fontSize: "12px",
+            strokeWidth: 0,
+            fontSize: "18px",
           }}
           interval="preserveStartEnd"
           domain={[0, "dataMax + 10"]}
+          axisLine={false}
         />
         <Tooltip
           content={<ChartTooltip kpi={kpi} colors={colors} />}
@@ -70,11 +73,7 @@ export const ResponsiveAreaChart = ({
           dataKey="value"
           stroke={colors?.stroke}
           strokeWidth={3}
-          fill={colors?.fill}
-          dot={{
-            stroke: colors?.stroke,
-            strokeWidth: 3,
-          }}
+          fillOpacity={0}
         />
       </AreaChart>
     </ResponsiveContainer>

@@ -10,7 +10,7 @@ const filters: CrudFilter[] = [
   {
     field: "start",
     operator: "eq",
-    value: dayjs()?.subtract(7, "days")?.startOf("day"),
+    value: dayjs()?.subtract(30, "days")?.startOf("day"),
   },
   {
     field: "end",
@@ -64,7 +64,6 @@ export const Dashboard: React.FC = () => {
           data={memoizedRevenueData}
           colors={{
             stroke: "rgb(54, 162, 235)",
-            fill: "rgba(54, 162, 235, 0.2)",
           }}
         />
       ),
@@ -79,7 +78,6 @@ export const Dashboard: React.FC = () => {
           data={memoizedOrdersData}
           colors={{
             stroke: "rgb(255, 159, 64)",
-            fill: "rgba(255, 159, 64, 0.7)",
           }}
         />
       ),
@@ -94,7 +92,6 @@ export const Dashboard: React.FC = () => {
           data={memoizedNewCustomersData}
           colors={{
             stroke: "rgb(76, 175, 80)",
-            fill: "rgba(54, 162, 235, 0.2)",
           }}
         />
       ),
