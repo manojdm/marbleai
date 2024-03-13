@@ -105,8 +105,8 @@ export const Dashboard: React.FC = () => {
       content: (
         <ResponsiveAreaChart
           kpi="Daily revenue"
-          data={previousWeekRevenueData}
-          data2={comparisionWeekRevenueData}
+          previousWeekData={previousWeekRevenueData}
+          comparisionWeekData={comparisionWeekRevenueData}
           colors={{
             stroke: "rgb(54, 162, 235)",
           }}
@@ -121,8 +121,8 @@ export const Dashboard: React.FC = () => {
       content: (
         <ResponsiveAreaChart
           kpi="Daily orders"
-          data={previousWeekOrdersData}
-          data2={comparisionWeekOrdersData}
+          previousWeekData={previousWeekOrdersData}
+          comparisionWeekData={comparisionWeekOrdersData}
           colors={{
             stroke: "rgb(255, 159, 64)",
           }}
@@ -137,8 +137,8 @@ export const Dashboard: React.FC = () => {
       content: (
         <ResponsiveAreaChart
           kpi="New customers"
-          data={previousWeekNewCustomersData}
-          data2={comparisionWeekNewCustomersData}
+          previousWeekData={previousWeekNewCustomersData}
+          comparisionWeekData={comparisionWeekNewCustomersData}
           colors={{
             stroke: "rgb(76, 175, 80)",
           }}
@@ -151,7 +151,11 @@ export const Dashboard: React.FC = () => {
 
   return (
     <>
-      <TabView filters={previousWeekDataFilters} tabs={tabs} />
+      <TabView
+        currentWeekFilters={comparisionWeekDataFilters}
+        previousWeekFilters={previousWeekDataFilters}
+        tabs={tabs}
+      />
     </>
   );
 };
